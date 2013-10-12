@@ -2,8 +2,8 @@ title Run for your lives
 author Seanna Musgrave
 text_color red
 background_color black
-youtube 4RW3drrXgWg
-
+youtube qR9rzKGXZIo
+zoomscreen 9x9
 
 ========
 OBJECTS
@@ -18,23 +18,77 @@ Brown Purple DarkBlue
 .020.
 ..2..
 
+Friend
+Brown Green DarkBlue
+
+..0..
+.111.
+.111.
+.020.
+..2..
+
 Background
-gray
+#111111
 
 Exit
 Green
 
 Wall
-Brown
+White DarkGray
+
+00000
+01110
+01110
+01110
+00000
+
+Blood
+red
+
+MoveBlood1
+DarkRed
+
+MoveBlood2
+DarkRed
+
+TempBlood1
+DarkRed
+
+TempBlood2
+DarkRed
+
+Demon
+White Red
+
+.000.
+01010
+.000.
+.0.0.
+.0.0.
+
+Corpse
+Brown Purple DarkBlue DarkRed
+
+..3..
+.110.
+31322
+.110.
+..3..
+
+MovedDemon
+White
 
 =======
 LEGEND
 =======
 
 P = Person
+F = Friend
+D = Demon
 . = Background
 X = Exit
 # = Wall
+B = Blood
 
 Player = Person
 
@@ -43,37 +97,105 @@ SOUNDS
 =======
 
 startlevel 7796302
-endlevel 85274908
+endlevel 16499703
+sfx0 21644302 (Moan)
+sfx1 50322108 (Death Wail)
 
 ================
 COLLISIONLAYERS
 ================
 
 Background
-Exit
-Person, Wall
+Exit, Corpse
+Person, Wall, Friend, Blood, MoveBlood1, MoveBlood2, TempBlood1, TempBlood2, Demon, MovedDemon
 
 ======
 RULES
 ======
+[> Person | Friend] -> [> Person |] sfx0 message Why are they making that noise outside?
 
 
+[Blood|Background] -> [Blood|MoveBlood1]
+[TempBlood1] -> [Blood]
+
+late [MoveBlood1] -> [TempBlood1]
+
+(Monster behavior)
+
+[Demon|...|Person] -> [> MovedDemon | ... | Person]
+[MovedDemon | Person] -> [> MovedDemon | Corpse] sfx1
+
+[Stationary Demon] -> [randomDir Demon]
+
+late [MovedDemon] -> [Demon]
 
 ==============
 WINCONDITIONS
 ==============
 
 All exit On Player
+No Friend
 
 =======
 LEVELS
 =======
 
+................................
+.P.....#........................
+...P............................
+....P.#.........................
+..........D.....................
+..P.#........D.......#..........
+.....................#...#......
+........#............#..........
+...#.......#...X................
+................................
+........#.......................
+................................
+.......................#........
+..............#.................
+.....#..........................
+................................
+....................#...........
+...#.......#....................
+................................
+...........................#....
+................................
+.....#..........................
+...............#................
+................................
+................................
+................................
+........#.......................
+
+
+
+
+(Demon Run)
+
+................
+.P.....#........
+...P............
+....P.#.........
+..........D.....
+..P.#........D..
+................
+........#.......
+...#.......#...X
+................
+........#.......
+................
+
+
+(Inside your house)
+
 ##X##
 #...#
+#.F.#
 #.P.#
-#...#
 #####
+
+(Running from the blood)
 
 ################
 #...P..........#
@@ -83,7 +205,7 @@ LEVELS
 #.#...#..#P..#.#
 #.#####..#####.#
 #..............#
-#..............#
+B..............#
 #.##.##..#####.#
 #.#...#..#P..#.#
 #.#.###..#.....#

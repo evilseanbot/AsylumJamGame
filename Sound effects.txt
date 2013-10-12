@@ -4,9 +4,37 @@ Shrinking Sound 51023102
 Moan 21644302
 Foreboding 7796302
 Motorish destruction 70043902
-Haunting Bird Noise 16499703
+Haunting Bird Noise 16499703 unsettling.
 Radio Chatter 44946109
 Displeased Grumble 50339908
 High tension Cord 31801508
 Flushing Water 38554108
 Low Static 85274908
+Chime 84554702
+Sad Zip 24874502
+Shrill Noise 64694702
+Yelp 60866902
+Wookie Cry 6945303
+Robotic Cry  67108303
+Disturbing vibrating Noise  73996703
+Short Sob 91536103
+Cricket 76829309
+Yelp cut short 79528105
+Weird Tone 33703108 (Possibly use for stage transitions?)
+Roar with long static 41533308
+Trains in distance 48055908
+Aggressive Rev  60738708
+Eerie Note 95855308
+High pitched Ring 61256908
+Motor 9836908
+Striking Hollow Sound 67234708
+Razor 51738908
+Machine Gun Fire 4848908
+Ocean 49677508
+Weird Moan 67790508
+Cry of despair 41107508
+Whine in the distance 69885908
+Siren 63727908
+Disturbing Wail 50322108
+Weird two tone 39228708
+Rad buzzing sound 45038508
