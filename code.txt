@@ -78,10 +78,29 @@ Brown Purple DarkBlue DarkRed
 MovedDemon
 White
 
+Frida
+Orange Blue DarkBlue
+
+..0..
+.111.
+.111.
+.020.
+..2..
+
+Fly
+Black DarkGray
+
+.....
+.101.
+..0..
+.....
+.....
+
 =======
 LEGEND
 =======
 
+* = Frida
 P = Person
 F = Friend
 D = Demon
@@ -89,6 +108,7 @@ D = Demon
 X = Exit
 # = Wall
 B = Blood
+y = Fly
 
 Player = Person
 
@@ -107,7 +127,8 @@ COLLISIONLAYERS
 
 Background
 Exit, Corpse
-Person, Wall, Friend, Blood, MoveBlood1, MoveBlood2, TempBlood1, TempBlood2, Demon, MovedDemon
+Person, Wall, Friend, Blood, MoveBlood1, MoveBlood2, TempBlood1, TempBlood2, Frida
+Demon, MovedDemon
 
 ======
 RULES
@@ -142,7 +163,7 @@ LEVELS
 
 ................................
 .P.....#........................
-...P............................
+...P.*..........................
 ....P.#.........................
 ..........D.....................
 ..P.#........D.......#..........
@@ -152,7 +173,7 @@ LEVELS
 ................................
 ........#.......................
 ................................
-.......................#........
+B......................#........
 ..............#.................
 .....#..........................
 ................................
