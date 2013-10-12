@@ -1,0 +1,93 @@
+title Run for your lives
+author Seanna Musgrave
+text_color red
+background_color black
+youtube 4RW3drrXgWg
+
+
+========
+OBJECTS
+========
+
+Person
+Brown Purple DarkBlue
+
+..0..
+.111.
+.111.
+.020.
+..2..
+
+Background
+gray
+
+Exit
+Green
+
+Wall
+Brown
+
+=======
+LEGEND
+=======
+
+P = Person
+. = Background
+X = Exit
+# = Wall
+
+Player = Person
+
+=======
+SOUNDS
+=======
+
+startlevel 7796302
+endlevel 85274908
+
+================
+COLLISIONLAYERS
+================
+
+Background
+Exit
+Person, Wall
+
+======
+RULES
+======
+
+
+
+==============
+WINCONDITIONS
+==============
+
+All exit On Player
+
+=======
+LEVELS
+=======
+
+##X##
+#...#
+#.P.#
+#...#
+#####
+
+################
+#...P..........#
+#.##.##..##.##.#
+#.#...#..#...#.#
+#.#...#..###.#.#
+#.#...#..#P..#.#
+#.#####..#####.#
+#..............#
+#..............#
+#.##.##..#####.#
+#.#...#..#P..#.#
+#.#.###..#.....#
+#.#..P#..#...#.#
+#.#####..#####.#
+#..............#
+########X#######
