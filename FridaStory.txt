@@ -1,6 +1,6 @@
-title Frida Story
+title Imposter
 author Seanna Musgrave
-text_color red
+text_color white
 background_color black
 youtube qR9rzKGXZIo
 
@@ -17,14 +17,51 @@ Orange Blue Red
 .010.
 ..2..
 
-Person
-Brown Purple DarkBlue
+LittleFrida
+Orange #8888FF Red
+
+.....
+..0..
+.111.
+.010.
+..2..
+
+Mom
+Orange Pink Brown
 
 ..0..
 .111.
 .111.
 .020.
 ..2..
+
+StepDad
+Orange White Brown
+
+..0..
+.111.
+.111.
+.020.
+..2..
+
+RandoWanderer
+Orange Green DarkBlue
+
+..0..
+.111.
+.111.
+.020.
+..2..
+
+RandoRunner
+Orange Green DarkBlue
+
+..0..
+.111.
+.111.
+.020.
+..2..
+
 
 LandLadyWin
 Orange Green DarkBlue
@@ -66,7 +103,7 @@ Wall
 01110
 00000
 
-Fly
+NormalFly
 Black DarkGray
 
 .....
@@ -74,6 +111,43 @@ Black DarkGray
 ..0..
 .....
 .....
+
+EvilFly
+Black DarkGray
+
+.....
+.101.
+..0..
+.....
+.....
+
+FlyMonster
+Black
+
+.0.0.
+00.00
+.000.
+.0.0.
+.000.
+
+MovedMonster
+Black
+
+.0.0.
+00.00
+.000.
+.0.0.
+.000.
+
+
+Corpse
+Orange Grey Red
+
+..2..
+.210.
+01122
+.210.
+..2..
 
 OpenDoor
 
@@ -139,16 +213,56 @@ Gray Black White Green
 01110
 00000
 
+Employer
+Orange Gray Brown White
+
+..0..
+11311
+11311
+02220
+.2.2.
+
+EmployerDecoration
+Orange Gray Brown White
+
+..0..
+11311
+11311
+02220
+.2.2.
+
+InvizFlyGenerator
+White
+
+.....
+.....
+.....
+.....
+.....
+
+Crate
+Brown Black
+
+11111
+10001
+10001
+10001
+11111
+
+
+
+
 =======
 LEGEND
 =======
 
 * = Frida
-P = Person
+^ = LittleFrida
 F = Friend
 . = Background
 # = Wall
-y = Fly
+y = NormalFly
+% = EvilFly
 O = OpenDoor
 W = Wound
 L = LandLadyWin
@@ -158,9 +272,20 @@ B = OpenBed
 C = ClosedBed
 R = RingingPhone
 - = SilentPhone
-Player = Frida
+E = Employer
+$ = EmployerDecoration
+[ = Mom
+] = StepDad
++ = RandoWanderer
+! = RandoRunner
+_ = InvizFlyGenerator
+& = Crate
 
-Objective = RingingPhone Or OpenDoor or OpenBed or LandLadyWin Or Mailbox
+Player = Frida or LittleFrida
+Person = Frida or RandoWanderer or RandoRunner
+Fly = NormalFly or EvilFly
+
+Objective = RingingPhone Or OpenDoor or OpenBed or LandLadyWin Or Mailbox Or Employer or Mom or StepDad
 
 =======
 SOUNDS
@@ -175,9 +300,9 @@ COLLISIONLAYERS
 ================
 
 Background
-OpenDoor, Wound
-Person, Wall, Friend, Frida, LandLadyWin, LandLady2, MailBox, OpenBed, ClosedBed, RingingPhone, SilentPhone
-Fly
+OpenDoor, Wound, Corpse, InvizFlyGenerator
+Person, Wall, Friend, Frida, LandLadyWin, LandLady2, MailBox, OpenBed, ClosedBed, RingingPhone, SilentPhone, Employer, EmployerDecoration, LittleFrida, Mom, StepDad, RandoWanderer, RandoRunner, FlyMonster, MovedMonster, Crate
+NormalFly, EvilFly
 
 ======
 RULES
@@ -185,21 +310,30 @@ RULES
 
 [Stationary Fly] -> [randomDir Fly]
 
-[Wound no Fly] -> [Wound Fly]
+[Stationary RandoWanderer] -> [randomDir RandoWanderer]
 
-[Fly | Player Fly | Fly] -> [Fly | Fly | Fly]
+[Wound no EvilFly] -> [Wound EvilFly]
 
-[> Frida | LandLadyWin] ->  Win
+[InvizFlyGenerator no EvilFly] -> [InvizFlyGenerator EvilFly]
 
-[> Frida | LandLady2] ->  [> Frida | ] message 
+[ > Player] [RandoRunner ] -> [ > Player] [ > RandoRunner ]
 
-[> Frida | MailBox] -> Win
+[ > Person | Crate ] -> [> Person | > Crate]
 
-[> Frida | OpenBed] -> Win
+[EvilFly | EvilFly no Wall | EvilFly | EvilFly] -> [ | FlyMonster | |]
 
-[> Frida | RingingPhone] -> Win
+(Fly Monster behavior)
 
-[> Frida | OpenDoor] -> Win
+[FlyMonster|...|Person] -> [> MovedMonster | ... | Person]
+[MovedMonster | Person] -> [> MovedMonster | Corpse] sfx1
+
+[Stationary FlyMonster] -> [randomDir FlyMonster]
+
+late [MovedMonster] -> [FlyMonster]
+
+
+
+[> Player | Objective] -> Win
 
 [RingingPhone] -> sfx2
 
@@ -213,7 +347,7 @@ No Objective
 LEVELS
 =======
 
-message You've arrived at the house. Your legs are a little weak from sitting on a bus, but also from excitement.
+message You've arrived at the house. Your legs are a little weak from your long trip, but also from excitement.
 
 ####################
 #########.......####
@@ -268,17 +402,17 @@ message Martha: Wow, adding some sophistication here.
 .#####................##########
 .#####................##########
 .##.##................##.####.##
-...*............................
+...*..........+.................
 ................................
 .#####....###########...........
-.#####....###########...........
+.#####....###########...+.......
 .##.##....##.#####.##...........
 ................................
-................................
+.........+......................
 .#####....#####..#####....###...
 .#####....#...#..#####....#O#...
 .##.##....##.##..##.##..........
-................................
+.....................+..........
 ................................
 
 #####
@@ -296,20 +430,20 @@ message Inside the mailbox, there is a check for $300 from your mother, as well 
 ##O##
 
 ................................
-.#####................##########
+.#####...+............##########
 .#####................##########
 .##O##................##.####.##
 ................................
-................................
++...............................
 .#####....###########...........
 .#####....###########...........
 .##.##....##.#####.##...........
 ................................
 ................................
 .#####....#####..#####....###...
-.#####....#...#..#####....#.#...
+.#####....#...#..#####...+#.#...
 .##.##....##.##..##.##.....*....
-................................
+....+...........................
 ................................
 
 
@@ -336,7 +470,7 @@ message Frida: Yes, I'm fine... I think I'm going to bed.
 #....y.............#
 #..................#
 #..................#
-###########*########
+###########.########
 
 
 
@@ -351,7 +485,7 @@ message A Month goes past.
 #####
 
 message Frida: Hey Mom.
-message Rachel, Frida's Mother: Hey. I was just walking the maid out. I wanted to talk to you about this rent buisness.
+message Rachel, Frida's Mother: Hey. I was just taking the trash out. I wanted to talk to you about this rent buisness.
 message Frida: I'm going to a job interview today.
 message Rachel: Well... this isn't the first time.
 message Frida: Its going to be okay, mom. I'll let you know how it goes.
@@ -374,7 +508,7 @@ message You supported her in every way when things with Step-dad started to go d
 
 message A months or two of rent just seems fair. Its very temporary of course.
 
-................................
+..............+.................
 .#####................##########
 .#####................##########
 .##*##................##O####.##
@@ -382,21 +516,194 @@ message A months or two of rent just seems fair. Its very temporary of course.
 ................................
 .#####....###########...........
 .#####....###########...........
-.##.##....##.#####.##...........
-................................
-................................
+.##.##....##.#####.##.......+...
+..............+.................
+..+.............................
 .#####....#####..#####....###...
 .#####....#...#..#####....#.#...
 .##.##....##.##..##.##..........
 ................................
 ................................
 
-message You take the bus to your interview
+message You take the train to your interview
 
 ########
-#......#
+#.E....#
 #......#
 ###.*###
 
 
+message Mark, the interviewer: Hello Frida.
+message Frida: Hello, its great to be here.
+message Mark: So I've been looking over your resume.
+message Mark: The college on your resume... I've never heard of it.
+message Frida: We do like to think of it as our little secret.
+message Mark: Hmm. So what I would like to know from you is, where have you come from, and where do you see yourself going?
+message Frida: Well... I did go to a small college, and, I'm very passionate about marketing, and the importance of the brand...
+message Mark: Hmmmm...
+message Frida: You can see some mock ups I did for the tea store, and, I really appreciate everything that your company does.
+message Mark: This isn't cutting it.
+message Frida: Excuse me?
+message Mark: I don't think you have what we're looking for... I even think you may be in the wrong field.
+message Frida: Well... Thank you for your time. 
+message Mark: Likewise.
 
+########
+#.$*...#
+#......#
+###OO###
+
+................................
+.#####................##########
+.#####.........+......##########
+.##O##................##*####.##
+................................
+................................
+.#####.+..###########...........
+.#####....###########...........
+.##.##....##.#####.##...........
+..............+.................
+......................+.........
+.#####....#####..#####....###...
+.#####....#...#..#####....#.#...
+.##.##....##.##..##.##..........
+................................
+................................
+
+############
+##.#y....[]#
+#y.y..y....#
+#.y.......y#
+#####^######
+
+message Step dad: AND IT SERVES YOU RIGHT YOU FUCKING COMMUNIST
+message Frida: Guys! There are bugs everywhere!
+message Step dad: Go into your damn room. 
+message Frida: But Mom! 
+message Step dad: Geezus Rachel, she isn' even my brat.
+message Rachel: JUST GO TO YOUR ROOM.
+
+############
+##O#y......#
+#y.y..y..^.#
+#.y.......y#
+#####.######
+
+###R#
+#C..*
+#####
+
+message Rachel: Hey honey.
+message Frida: Hey mom
+message Rachel: Frida, honey, I want you to know that the checks are going to have to stop.
+message Frida: No mom, I just need a little more time.
+message Rachel: I have been hearing that for a while. The job interview didn't go well did it.
+message Frida: It went fine mom. It was just not a right fit.
+message Rachel: Mhm. You're running around like a chicken with your head cut off.
+message Frida: Mom, I need the room.
+message Rachel: ...
+message Rachel: Alright, but this is going to be the last one.
+
+###-#
+#B.*.
+#####
+
+message A Month goes past.
+
+W####
+#C*.O
+#####
+
+message Martha: I think this month she'll finally be out of her mom's checks. Then I can find a real tenant.
+
+####################
+###W#####....y..####
+#W######*.......####
+######W##.......####
+#W.######..L..y....#
+#..................#
+#...y..............#
+#.........y........#
+###########.########
+
+message Frida: Have you looked around your house? There's huge bugs eveywhere!
+message Martha: They want you to come back.
+message Frida: My mom?
+message Martha: No, the filth, its where you belong dear.
+
+####################
+###W#####....y..####
+#W######*.......####
+######W##.......####
+#W.######..*..y....#
+#..................#
+#...y..............#
+#.........y........#
+###########.########
+
+
+
+message Why couldn't you just give up
+
+................................
+.#W##W................##########
+.###W#.........+......##########
+.W#*##................##.####.##
+................................
+................................
+.#####.+..###########...........
+.#####....###########...........
+.##.##....##.#####.##...........
+..............+.................
+......................+.........
+.#####....#####..#####....###...
+.#####....#...#..#####....#.#...
+.##.##....##.##..##O##..........
+................................
+................................
+
+#######O########
+#...#......#!..#
+#...#......###.#
+#..!#......#...#
+#...#.!....#.###
+#..............#
+#......*.......#
+######___#######
+
+message HELP
+
+################
+#.......&.!....#
+#...!...&.....!#
+_.......&.....!_
+_.......#......_
+#......###.....#
+#!.*.!#####....#
+##___#######.O.#
+
+message The people that are left
+
+######._.#######
+#....#.*.#.....#
+#....#...#.....#
+#..!&..&.&.....#
+#.....!.....!..#
+#........!.....O
+#.!............#
+################
+
+message Look for you to lead them
+
+################
+#!.............#
+_.*............O
+#!.............#
+################
+
+
+message Crawling through the sewers with the survivors left with you, you manage to get out and flag a car for help.
+
+message You sit dazed in the car, looking out the window. Your legs are a little weak from your long trip, but also from excitement.
+
+message The End. Thanks for playing!
