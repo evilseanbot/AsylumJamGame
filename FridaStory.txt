@@ -26,6 +26,25 @@ Brown Purple DarkBlue
 .020.
 ..2..
 
+LandLadyWin
+Orange Green DarkBlue
+
+.....
+..0..
+.111.
+.111.
+..2..
+
+LandLady2
+Orange Green DarkBlue
+
+.....
+..0..
+.111.
+.111.
+..2..
+
+
 Friend
 Brown Green DarkBlue
 
@@ -66,6 +85,59 @@ Black Brown
 ..001
 ...01
 
+Wound
+
+pink red DarkRed
+
+.000.
+00002
+02110
+01210
+.200.
+
+MailBox
+
+Yellow Brown Black
+
+00000
+01110
+01120
+01110
+00000
+
+OpenBed
+White Blue Gray
+
+00000
+00000
+22211
+22111
+21111
+
+ClosedBed
+White Blue
+
+00000
+00000
+11111
+11111
+11111
+
+SilentPhone
+Gray Black White DarkGreen
+01110
+01310
+01110
+01110
+00000
+
+RingingPhone
+Gray Black White Green
+01110
+01310
+01110
+01110
+00000
 
 =======
 LEGEND
@@ -78,25 +150,33 @@ F = Friend
 # = Wall
 y = Fly
 O = OpenDoor
-
+W = Wound
+L = LandLadyWin
+M = LandLady2
+X = MailBox
+B = OpenBed
+C = ClosedBed
+R = RingingPhone
+- = SilentPhone
 Player = Frida
+
+Objective = RingingPhone Or OpenDoor or OpenBed or LandLadyWin Or Mailbox
 
 =======
 SOUNDS
 =======
 
-startlevel 7796302
-endlevel 16499703
+endLevel 16499703
 sfx0 21644302 (Moan)
 sfx1 50322108 (Death Wail)
-
+sfx2 76271108 (Phone Ring)
 ================
 COLLISIONLAYERS
 ================
 
 Background
-OpenDoor
-Person, Wall, Friend, Frida
+OpenDoor, Wound
+Person, Wall, Friend, Frida, LandLadyWin, LandLady2, MailBox, OpenBed, ClosedBed, RingingPhone, SilentPhone
 Fly
 
 ======
@@ -105,42 +185,218 @@ RULES
 
 [Stationary Fly] -> [randomDir Fly]
 
+[Wound no Fly] -> [Wound Fly]
+
+[Fly | Player Fly | Fly] -> [Fly | Fly | Fly]
+
+[> Frida | LandLadyWin] ->  Win
+
+[> Frida | LandLady2] ->  [> Frida | ] message 
+
+[> Frida | MailBox] -> Win
+
+[> Frida | OpenBed] -> Win
+
+[> Frida | RingingPhone] -> Win
+
+[> Frida | OpenDoor] -> Win
+
+[RingingPhone] -> sfx2
+
 ==============
 WINCONDITIONS
 ==============
 
-All OpenDoor on Player
+No Objective
 
 =======
 LEVELS
 =======
 
+message You've arrived at the house. Your legs are a little weak from sitting on a bus, but also from excitement.
+
 ####################
-#########..........#
-#########..........#
-#########..........#
-##O###.##..........#
-#..........*.......#
+#########.......####
+########........####
+#########L......####
+###.#####..........#
+#..................#
+#..................#
+#..................#
+###########*########
+
+message Martha: Well, you've certainly traveled a long way. Are you ready to put all your stuff in your new room, hon?
+
+####################
+#########.......####
+########O.......####
+#########*......####
+##.######..........#
+#..................#
 #..................#
 #..................#
 ###########.########
 
-###
-#.#
-#*#
-#.#
-#O#
+
+###-#
+#CL.*
+#####
+
+Message Frida: It looks... cozy?
+Message Martha: Its a bit small, I think you'll like it. So the rent? You were looking for a job? 
+message Frida: Yeah, It should take no time at all, but I can get the money from my mom right now. There should be a check in the mail at the post office 
+message Martha: Lovely. What sort of buisness did you say you were in?
+message Frida: Marketing.
+message Martha: Wow, adding some sophistication here.
+
+###-#
+#C.*O
+#####
+
 
 ####################
-#########..........#
-#########..........#
-#########..........#
-######.##..........#
-#.*................#
+#########.......####
+########*.......####
+#########.......####
+##.######..........#
+#..................#
 #..................#
 #..................#
 ###########O########
 
+................................
+.#####................##########
+.#####................##########
+.##.##................##.####.##
+...*............................
+................................
+.#####....###########...........
+.#####....###########...........
+.##.##....##.#####.##...........
+................................
+................................
+.#####....#####..#####....###...
+.#####....#...#..#####....#O#...
+.##.##....##.##..##.##..........
+................................
+................................
+
+#####
+#.X.#
+#...#
+#...#
+##*##
+
+message Inside the mailbox, there is a check for $300 from your mother, as well as some coupons for fast food, and an ad from a cable company.
+
+#####
+#.*.#
+#...#
+#...#
+##O##
+
+................................
+.#####................##########
+.#####................##########
+.##O##................##.####.##
+................................
+................................
+.#####....###########...........
+.#####....###########...........
+.##.##....##.#####.##...........
+................................
+................................
+.#####....#####..#####....###...
+.#####....#...#..#####....#.#...
+.##.##....##.##..##.##.....*....
+................................
+................................
+
+
+####################
+#########.......####
+########........####
+#########..L....####
+##.######.....y....#
+#....y.............#
+#..................#
+#..................#
+###########*########
+
+message Frida: Here's the rent.
+message Martha: Thanks. The flies have come back today. 
+message Martha: They always seem to come back in summer... are you alright Frida?
+message Frida: Yes, I'm fine... I think I'm going to bed.
+
+####################
+#########.......####
+########O.......####
+#########..*....####
+##.######.....y....#
+#....y.............#
+#..................#
+#..................#
+###########*########
+
+
+
+###-#
+#B..*
+#####
+
+message A Month goes past. 
+
+###R#
+#C*..
+#####
+
+message Frida: Hey Mom.
+message Rachel, Frida's Mother: Hey. I was just walking the maid out. I wanted to talk to you about this rent buisness.
+message Frida: I'm going to a job interview today.
+message Rachel: Well... this isn't the first time.
+message Frida: Its going to be okay, mom. I'll let you know how it goes.
+
+###-#
+#C*.O
+#####
+
+message You supported her in every way when things with Step-dad started to go downhill.
+
+####################
+#########....y..####
+########*.......####
+#########.......####
+##.######.....y....#
+#....y.............#
+#..................#
+#.........y........#
+###########O########
+
+message A months or two of rent just seems fair. Its very temporary of course.
+
+................................
+.#####................##########
+.#####................##########
+.##*##................##O####.##
+................................
+................................
+.#####....###########...........
+.#####....###########...........
+.##.##....##.#####.##...........
+................................
+................................
+.#####....#####..#####....###...
+.#####....#...#..#####....#.#...
+.##.##....##.##..##.##..........
+................................
+................................
+
+message You take the bus to your interview
+
+########
+#......#
+#......#
+###.*###
 
 
 
