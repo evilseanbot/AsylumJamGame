@@ -82,17 +82,8 @@ Orange Green DarkBlue
 ..2..
 
 
-Friend
-Brown Green DarkBlue
-
-..0..
-.111.
-.111.
-.020.
-..2..
-
 Background
-#111144
+#331133
 
 Wall
 #444411 #222211
@@ -205,6 +196,15 @@ Gray Black White DarkGreen
 01110
 00000
 
+InitRingingPhone
+Gray Black White Green
+01110
+01310
+01110
+01110
+00000
+
+
 RingingPhone
 Gray Black White Green
 01110
@@ -249,7 +249,22 @@ Brown Black
 10001
 11111
 
+Sidewalk
+#444444 #666666
+00000
+01111
+01111
+01111
+01111
 
+StaticMaker
+White
+
+.....
+.....
+.....
+.....
+.....
 
 
 =======
@@ -258,7 +273,6 @@ LEGEND
 
 * = Frida
 ^ = LittleFrida
-F = Friend
 . = Background
 # = Wall
 y = NormalFly
@@ -270,7 +284,7 @@ M = LandLady2
 X = MailBox
 B = OpenBed
 C = ClosedBed
-R = RingingPhone
+R = InitRingingPhone
 - = SilentPhone
 E = Employer
 $ = EmployerDecoration
@@ -280,6 +294,8 @@ $ = EmployerDecoration
 ! = RandoRunner
 _ = InvizFlyGenerator
 & = Crate
+S = Sidewalk
+G = StaticMaker
 
 Player = Frida or LittleFrida
 Person = Frida or RandoWanderer or RandoRunner
@@ -294,19 +310,24 @@ SOUNDS
 endLevel 16499703
 sfx0 21644302 (Moan)
 sfx1 50322108 (Death Wail)
-sfx2 76271108 (Phone Ring)
+sfx2 39228708 (Phone Ring)
+sfx3 21644302 (Monster Yell)
+sfx4 85274908 (Static)
 ================
 COLLISIONLAYERS
 ================
 
 Background
-OpenDoor, Wound, Corpse, InvizFlyGenerator
-Person, Wall, Friend, Frida, LandLadyWin, LandLady2, MailBox, OpenBed, ClosedBed, RingingPhone, SilentPhone, Employer, EmployerDecoration, LittleFrida, Mom, StepDad, RandoWanderer, RandoRunner, FlyMonster, MovedMonster, Crate
+Sidewalk
+OpenDoor, Wound, Corpse, InvizFlyGenerator, StaticMaker
+Person, Wall, Frida, LandLadyWin, LandLady2, MailBox, OpenBed, ClosedBed, RingingPhone, SilentPhone, Employer, EmployerDecoration, LittleFrida, Mom, StepDad, RandoWanderer, RandoRunner, FlyMonster, MovedMonster, Crate, InitRingingPhone
 NormalFly, EvilFly
 
 ======
 RULES
 ======
+
+[StaticMaker] -> [] sfx4
 
 [Stationary Fly] -> [randomDir Fly]
 
@@ -320,7 +341,7 @@ RULES
 
 [ > Person | Crate ] -> [> Person | > Crate]
 
-[EvilFly | EvilFly no Wall | EvilFly | EvilFly] -> [ | FlyMonster | |]
+[EvilFly | EvilFly no Wall | EvilFly | EvilFly] -> [ | FlyMonster | |] sfx3
 
 (Fly Monster behavior)
 
@@ -331,11 +352,11 @@ RULES
 
 late [MovedMonster] -> [FlyMonster]
 
-
-
 [> Player | Objective] -> Win
 
-[RingingPhone] -> sfx2
+[InitRingingPhone] -> [RingingPhone] sfx2
+
+( [RingingPhone] -> sfx2 )
 
 ==============
 WINCONDITIONS
@@ -398,22 +419,24 @@ message Martha: Wow, adding some sophistication here.
 #..................#
 ###########O########
 
+
+
 ................................
-.#####................##########
-.#####................##########
-.##.##................##.####.##
-...*..........+.................
+S#####S..............S##########
+S#####S..............S##########
+S##*##S..............S##.####.##
+SSSSSSS......+.......SSSSSSSSSSS
 ................................
-.#####....###########...........
-.#####....###########...+.......
-.##.##....##.#####.##...........
-................................
+S#####S..S###########S..........
+S#####S..S###########S..+.......
+S##.##S..S##.#####.##S..........
+SSSSSSS..SSSSSSSSSSSSS..........
 .........+......................
-.#####....#####..#####....###...
-.#####....#...#..#####....#O#...
-.##.##....##.##..##.##..........
+S#####S..S#####SS#####S..S###S..
+S#####S..S#SSS#SS#####S..S#O#S..
+S##.##S..S##S##SS##.##S..SSSSS..
+SSSSSSS..SSSSSSSSSSSSSS.........
 .....................+..........
-................................
 
 #####
 #.X.#
@@ -429,22 +452,23 @@ message Inside the mailbox, there is a check for $300 from your mother, as well 
 #...#
 ##O##
 
+
 ................................
-.#####...+............##########
-.#####................##########
-.##O##................##.####.##
+S#####S..............S##########
+S#####S..............S##########
+S##O##S..............S##.####.##
+SSSSSSS......+.......SSSSSSSSSSS
 ................................
-+...............................
-.#####....###########...........
-.#####....###########...........
-.##.##....##.#####.##...........
-................................
-................................
-.#####....#####..#####....###...
-.#####....#...#..#####...+#.#...
-.##.##....##.##..##.##.....*....
-....+...........................
-................................
+S#####S..S###########S..........
+S#####S..S###########S..+.......
+S##.##S..S##.#####.##S..........
+SSSSSSS..SSSSSSSSSSSSS..........
+.........+......................
+S#####S..S#####SS#####S..S###S..
+S#####S..S#SSS#SS#####S..S#*#S..
+S##.##S..S##S##SS##.##S..SSSSS..
+SSSSSSS..SSSSSSSSSSSSSS.........
+.....................+..........
 
 
 ####################
@@ -480,6 +504,8 @@ message Frida: Yes, I'm fine... I think I'm going to bed.
 
 message A Month goes past. 
 
+
+
 ###R#
 #C*..
 #####
@@ -508,22 +534,23 @@ message You supported her in every way when things with Step-dad started to go d
 
 message A months or two of rent just seems fair. Its very temporary of course.
 
-..............+.................
-.#####................##########
-.#####................##########
-.##*##................##O####.##
+
 ................................
+S#####S..............S##########
+S#####S..............S##########
+S##*##S..............S##O####.##
+SSSSSSS......+.......SSSSSSSSSSS
 ................................
-.#####....###########...........
-.#####....###########...........
-.##.##....##.#####.##.......+...
-..............+.................
-..+.............................
-.#####....#####..#####....###...
-.#####....#...#..#####....#.#...
-.##.##....##.##..##.##..........
-................................
-................................
+S#####S..S###########S..........
+S#####S..S###########S..+.......
+S##.##S..S##.#####.##S..........
+SSSSSSS..SSSSSSSSSSSSS..........
+.........+......................
+S#####S..S#####SS#####S..S###S..
+S#####S..S#SSS#SS#####S..S#.#S..
+S##.##S..S##S##SS##.##S..SSSSS..
+SSSSSSS..SSSSSSSSSSSSSS.........
+.....................+..........
 
 message You take the train to your interview
 
@@ -553,22 +580,23 @@ message Mark: Likewise.
 #......#
 ###OO###
 
+
 ................................
-.#####................##########
-.#####.........+......##########
-.##O##................##*####.##
+S#####S..............S##########
+S#####S..............S##########
+S##O##S..............S##*####.##
+SSSSSSS......+.......SSSSSSSSSSS
 ................................
-................................
-.#####.+..###########...........
-.#####....###########...........
-.##.##....##.#####.##...........
-..............+.................
-......................+.........
-.#####....#####..#####....###...
-.#####....#...#..#####....#.#...
-.##.##....##.##..##.##..........
-................................
-................................
+S#####S..S###########S..........
+S#####S..S###########S..+.......
+S##.##S..S##.#####.##S..........
+SSSSSSS..SSSSSSSSSSSSS..........
+.........+......................
+S#####S..S#####SS#####S..S###S..
+S#####S..S#SSS#SS#####S..S#.#S..
+S##.##S..S##S##SS##.##S..SSSSS..
+SSSSSSS..SSSSSSSSSSSSSS.........
+.....................+..........
 
 ############
 ##.#y....[]#
@@ -588,6 +616,19 @@ message Rachel: JUST GO TO YOUR ROOM.
 #y.y..y..^.#
 #.y.......y#
 #####.######
+
+####################
+#########....y..####
+########O.......####
+#########.......####
+##.######..........#
+#....y.............#
+#..................#
+#..................#
+###########*########
+
+
+message Martha: I think this month she'll finally be out of her mom's checks. Then I can find a real tenant.
 
 ###R#
 #C..*
@@ -610,17 +651,17 @@ message Rachel: Alright, but this is going to be the last one.
 
 message A Month goes past.
 
-W####
-#C*.O
-#####
+)
 
-message Martha: I think this month she'll finally be out of her mom's checks. Then I can find a real tenant.
+W####
+#C*gO
+#####
 
 ####################
 ###W#####....y..####
 #W######*.......####
 ######W##.......####
-#W.######..L..y....#
+#W.######..L..y.g..#
 #..................#
 #...y..............#
 #.........y........#
@@ -633,34 +674,38 @@ message Martha: No, the filth, its where you belong dear.
 
 ####################
 ###W#####....y..####
-#W######*.......####
+#W######........####
 ######W##.......####
 #W.######..*..y....#
 #..................#
 #...y..............#
 #.........y........#
-###########.########
-
+###########O########
 
 
 message Why couldn't you just give up
 
+
+
 ................................
-.#W##W................##########
-.###W#.........+......##########
-.W#*##................##.####.##
+S#W##WS..............S##########
+S###W#S......g.......S##########
+SW#*##S..............S##.####.##
+SSSSSSS......+.......SSSSSSSSSSS
 ................................
-................................
-.#####.+..###########...........
-.#####....###########...........
-.##.##....##.#####.##...........
-..............+.................
-......................+.........
-.#####....#####..#####....###...
-.#####....#...#..#####....#.#...
-.##.##....##.##..##O##..........
-................................
-................................
+S#####S..S###########S..........
+S#####S..S###########S..+.......
+S##.##S..S##.#####.##S..........
+SSSSSSS..SSSSSSSSSSSSS..........
+.........+......................
+S#####S..S#####SS#####S..S###S..
+S#####S..S#SSS#SS#####S..S#.#S..
+S##.##S..S##S##SS##O##S..SSSSS..
+SSSSSSS..SSSSSSSSSSSSSS.........
+.....................+..........
+
+message HELP
+
 
 #######O########
 #...#......#!..#
@@ -671,7 +716,6 @@ message Why couldn't you just give up
 #......*.......#
 ######___#######
 
-message HELP
 
 ################
 #.......&.!....#
