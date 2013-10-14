@@ -113,13 +113,13 @@ Black DarkGray
 .....
 
 FlyMonster
-Black
+Black Red
 
 .0.0.
 00.00
+01010
 .000.
 .0.0.
-.000.
 
 MovedMonster
 Black
@@ -367,6 +367,8 @@ No Objective
 =======
 LEVELS
 =======
+
+
 
 message You've arrived at the house. Your legs are a little weak from your long trip, but also from excitement.
 
@@ -651,7 +653,6 @@ message Rachel: Alright, but this is going to be the last one.
 
 message A Month goes past.
 
-)
 
 W####
 #C*gO
